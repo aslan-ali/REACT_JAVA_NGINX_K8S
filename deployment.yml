@@ -1,14 +1,23 @@
 apiVersion: v1
+kind: Namespace
+metadata:
+  name: netdev
+
+
+---
+
+apiVersion: v1
 kind: Pod
 metadata:
   name: react-app
+  namespace: netdev
   labels:
     app: react
 spec:
   containers:
   - name: react-app
     image: netdevopsaslan/react_app:latest
-    imagePullPolicy: Never
+    #imagePullPolicy: Never
 
 ---
 
@@ -16,6 +25,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: react-app
+  namespace: netdev
   labels:
     app: react
 spec:
@@ -31,13 +41,14 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: java-app
+  namespace: netdev
   labels:
     app: java
 spec:
   containers:
   - name: java-app
     image: netdevopsaslan/java_app:latest
-    imagePullPolicy: Never
+    # imagePullPolicy: Never
 
 ---
 
@@ -45,6 +56,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: java-back
+  namespace: netdev
   labels:
     app: java
 spec:
@@ -60,9 +72,27 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: nginx
+  namespace: netdev
   labels:
     app: nginx
 spec:
   containers:
   - name: nginx
     image: netdevopsaslan/nginx:latest
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-front
+  namespace: netdev
+  labels:
+    app: nginx
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+  type: LoadBalancer
+  selector:
+    app: nginx
