@@ -1,0 +1,68 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: react-app
+  labels:
+    app: react
+spec:
+  containers:
+  - name: react-app
+    image: netdevopsaslan/react_app:latest
+    imagePullPolicy: Never
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: react-app
+  labels:
+    app: react
+spec:
+  ports:
+  - port: 4884
+    protocol: TCP
+  selector:
+    app: react
+
+---
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: java-app
+  labels:
+    app: java
+spec:
+  containers:
+  - name: java-app
+    image: netdevopsaslan/java_app:latest
+    imagePullPolicy: Never
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: java-back
+  labels:
+    app: java
+spec:
+  ports:
+  - port: 8080
+    protocol: TCP
+  selector:
+    app: java
+
+---
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+  labels:
+    app: nginx
+spec:
+  containers:
+  - name: nginx
+    image: netdevopsaslan/nginx:latest
